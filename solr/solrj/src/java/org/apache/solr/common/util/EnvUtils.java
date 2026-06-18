@@ -225,8 +225,9 @@ public class EnvUtils {
   }
 
   // "-D" flags land in system properties as typed - often camelCase - but our mapping file uses
-  // dot-separated keys, so normalise before looking up.
+  // dot-separated keys, so we try both before giving up.
   private static String findDeprecatedMappingKey(String sysPropKey) {
+    if (isInDeprecatedMappings(sysPropKey)) return sysPropKey;
     var dotKey = camelCaseToDotSeparated(sysPropKey);
     return isInDeprecatedMappings(dotKey) ? dotKey : null;
   }

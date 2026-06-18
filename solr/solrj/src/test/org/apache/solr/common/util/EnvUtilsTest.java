@@ -111,6 +111,14 @@ public class EnvUtilsTest extends SolrTestCase {
   }
 
   @Test
+  public void deprecatedPropertyWhoseMappingKeyIsCamelCaseIsUpgradedToCurrentName() {
+    Properties sysprops = new Properties();
+    sysprops.setProperty("collection.configName", "myConfig");
+    EnvUtils.init(false, Map.of(), sysprops);
+    assertEquals("myConfig", EnvUtils.getProperty("solr.configset.bootstrap.config.name"));
+  }
+
+  @Test
   public void deprecatedCamelCaseDFlagIsTranslatedToCurrentPropertyName() {
     Properties sysprops = new Properties();
     sysprops.setProperty("solr.auth.jwt.allowOutboundHttp", "true");
